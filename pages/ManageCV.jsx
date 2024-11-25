@@ -19,7 +19,7 @@ const ManageCV = ({ token }) => {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          Authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3NDFkNzg1YzU1NDc3N2EwMDcwMzlhNCIsImVtYWlsIjoiaW1hbmUuemF6YXJpQGV4YW1wbGUuY29tIiwiaWF0IjoxNzMyNTUzMzMzLCJleHAiOjE3MzI1NTY5MzN9.ORPhPuf_Ikk4okDYd6ROUafbkrkPzw8RpV6Zqf42mLA",
+          Authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3NDRkYmVmNDYxODc0N2Q3ZGU1MGZmYiIsImVtYWlsIjoiZGFsaS56YWluYUBleGFtcGxlLmNvbSIsImlhdCI6MTczMjU2NjAxMCwiZXhwIjoxNzMyNTY5NjEwfQ.Fb4J8YosHkvMZetavJi9JSUA0fQwL-UoQ1LYacnlW5Q",
         },
       });
 
@@ -47,7 +47,7 @@ const ManageCV = ({ token }) => {
       const response = await fetch(`/api/api/cv/${id}`, {
         method: "DELETE",
         headers: {
-          Authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3NDFkNzg1YzU1NDc3N2EwMDcwMzlhNCIsImVtYWlsIjoiaW1hbmUuemF6YXJpQGV4YW1wbGUuY29tIiwiaWF0IjoxNzMyNTUzMzMzLCJleHAiOjE3MzI1NTY5MzN9.ORPhPuf_Ikk4okDYd6ROUafbkrkPzw8RpV6Zqf42mLA",
+          Authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3NDRkYmVmNDYxODc0N2Q3ZGU1MGZmYiIsImVtYWlsIjoiZGFsaS56YWluYUBleGFtcGxlLmNvbSIsImlhdCI6MTczMjU2NjAxMCwiZXhwIjoxNzMyNTY5NjEwfQ.Fb4J8YosHkvMZetavJi9JSUA0fQwL-UoQ1LYacnlW5Q",
         },
       });
 
@@ -98,6 +98,29 @@ const ManageCV = ({ token }) => {
     overflowY: "auto", // Barre de défilement si nécessaire
   };
 
+  const handleToggleVisibility = async (id, newVisibility) => {
+    try {
+      const response = await fetch(`/api/api/cv/${id}`, {
+        method: "PATCH", // PATCH request to update visibility
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3NDRkYmVmNDYxODc0N2Q3ZGU1MGZmYiIsImVtYWlsIjoiZGFsaS56YWluYUBleGFtcGxlLmNvbSIsImlhdCI6MTczMjU2NjAxMCwiZXhwIjoxNzMyNTY5NjEwfQ.Fb4J8YosHkvMZetavJi9JSUA0fQwL-UoQ1LYacnlW5Q", // Use the token for authorization
+        },
+        body: JSON.stringify({ visibilite: newVisibility }), // Update visibility field
+      });
+
+      if (!response.ok) {
+        throw new Error(`Erreur ${response.status}: ${response.statusText}`);
+      }
+
+      // Update CVs list after visibility change
+      fetchCVs();
+    } catch (error) {
+      console.error("Erreur lors de la modification de la visibilité:", error);
+      alert("Une erreur est survenue lors de la mise à jour de la visibilité du CV.");
+    }
+  };
+
   // Style pour l'arrière-plan de la modale
   const overlayStyle = {
     position: "fixed",
@@ -135,15 +158,16 @@ const ManageCV = ({ token }) => {
         <p>Aucun CV disponible.</p>
       ) : (
         <div className="cv-list">
-          {cvs.map((cv) => (
-            <CVItem
-              key={cv._id}
-              cv={cv}
-              onEdit={() => handleEditCV(cv)}
-              onDelete={() => handleDeleteCV(cv._id)}
-            />
-          ))}
-        </div>
+        {cvs.map((cv) => (
+          <CVItem
+            key={cv._id}
+            cv={cv}
+            onEdit={() => console.log("Modifier le CV", cv)} // Ajoutez votre logique d'édition ici
+            onDelete={() => handleDeleteCV(cv._id)}
+            onToggleVisibility={handleToggleVisibility} // Passer la fonction de modification de visibilité
+          />
+        ))}
+      </div>
       )}
 
       {/* Affichage du formulaire de création dans une boîte modale */}
