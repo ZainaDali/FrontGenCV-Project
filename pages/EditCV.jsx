@@ -19,7 +19,7 @@ const EditCV = ({ token, initialData, onComplete }) => {
         method: "PATCH", // Méthode pour modification
         headers: {
           "Content-Type": "application/json",
-          Authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3NDFkNzg1YzU1NDc3N2EwMDcwMzlhNCIsImVtYWlsIjoiaW1hbmUuemF6YXJpQGV4YW1wbGUuY29tIiwiaWF0IjoxNzMyNTQ5NTAzLCJleHAiOjE3MzI1NTMxMDN9.kWAzcnHr3mzy1XcX1FpcBGicJfmr9W_WNid4BycZDmI", // Token transmis en prop
+          Authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3NDFkNzg1YzU1NDc3N2EwMDcwMzlhNCIsImVtYWlsIjoiaW1hbmUuemF6YXJpQGV4YW1wbGUuY29tIiwiaWF0IjoxNzMyNTU5NzE2LCJleHAiOjE3MzI1NjMzMTZ9.EZK6NLTTH_kyWvLpR5R18GSSKM6oFqp-fD2TS1R_vTY", // Token transmis en prop
         },
         body: JSON.stringify(payload),
       });

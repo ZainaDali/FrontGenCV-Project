@@ -19,7 +19,7 @@ const ManageCV = ({ token }) => {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          Authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3NDFkNzg1YzU1NDc3N2EwMDcwMzlhNCIsImVtYWlsIjoiaW1hbmUuemF6YXJpQGV4YW1wbGUuY29tIiwiaWF0IjoxNzMyNTUzMzMzLCJleHAiOjE3MzI1NTY5MzN9.ORPhPuf_Ikk4okDYd6ROUafbkrkPzw8RpV6Zqf42mLA",
+          Authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3NDFkNzg1YzU1NDc3N2EwMDcwMzlhNCIsImVtYWlsIjoiaW1hbmUuemF6YXJpQGV4YW1wbGUuY29tIiwiaWF0IjoxNzMyNTU5NzE2LCJleHAiOjE3MzI1NjMzMTZ9.EZK6NLTTH_kyWvLpR5R18GSSKM6oFqp-fD2TS1R_vTY",
         },
       });
 
