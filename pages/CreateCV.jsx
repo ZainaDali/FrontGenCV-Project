@@ -11,7 +11,7 @@ const CreateCV = ({onComplete}) => {
         headers: {
           "Content-Type": "application/json",
           Authorization:
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3NDFkNzg1YzU1NDc3N2EwMDcwMzlhNCIsImVtYWlsIjoiaW1hbmUuemF6YXJpQGV4YW1wbGUuY29tIiwiaWF0IjoxNzMyNTUzMzMzLCJleHAiOjE3MzI1NTY5MzN9.ORPhPuf_Ikk4okDYd6ROUafbkrkPzw8RpV6Zqf42mLA",
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3NDRkYmVmNDYxODc0N2Q3ZGU1MGZmYiIsImVtYWlsIjoiZGFsaS56YWluYUBleGFtcGxlLmNvbSIsImlhdCI6MTczMjU2NjAxMCwiZXhwIjoxNzMyNTY5NjEwfQ.Fb4J8YosHkvMZetavJi9JSUA0fQwL-UoQ1LYacnlW5Q",
         },
         body: JSON.stringify(payload),
       });

@@ -1,6 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 
-const CVItem = ({ cv, onEdit, onDelete }) => {
+const CVItem = ({ cv, onEdit, onDelete, onToggleVisibility }) => {
+  const [isVisible, setIsVisible] = useState(cv.visibilite);
+
+  const handleVisibilityToggle = async () => {
+    // Changer l'état local de visibilité
+    const newVisibility = !isVisible;
+    setIsVisible(newVisibility);
+
+    // Appeler la fonction onToggleVisibility pour appliquer la modification à l'API
+    await onToggleVisibility(cv._id, newVisibility); // Passer l'ID du CV et la nouvelle visibilité
+  };
+
   return (
     <div className="cv-item" style={{ border: "1px solid #ddd", padding: "15px", marginBottom: "15px", borderRadius: "5px", background: "#f9f9f9" }}>
       <h3>
@@ -33,10 +44,23 @@ const CVItem = ({ cv, onEdit, onDelete }) => {
           Modifier
         </button>
         <button
-          onClick={onDelete}
-          style={{ padding: "5px 10px", background: "#dc3545", color: "#fff", border: "none", borderRadius: "4px", cursor: "pointer" }}
+          onClick={() => onDelete(cv._id)} // Passer l'ID du CV à supprimer
+          style={{ marginRight: "10px", padding: "5px 10px", background: "#dc3545", color: "#fff", border: "none", borderRadius: "4px", cursor: "pointer" }}
         >
           Supprimer
+        </button>
+        <button
+          onClick={handleVisibilityToggle}
+          style={{
+            padding: "5px 10px",
+            background: isVisible ? "#28a745" : "#dc3545",
+            color: "#fff",
+            border: "none",
+            borderRadius: "4px",
+            cursor: "pointer",
+          }}
+        >
+          {isVisible ? "Visible" : "Invisible"}
         </button>
       </div>
     </div>
