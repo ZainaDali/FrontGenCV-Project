@@ -40,3 +40,12 @@
 .read-the-docs {
   color: #888;
 }
+.centered-container {
+  display: flex;
+  justify-content: center; /* Centre horizontalement */
+  align-items: center; /* Centre verticalement */
+  height: 100vh; /* Prend toute la hauteur de la fenêtre */
+  background-color: #f9f9f9; /* Optionnel : arrière-plan doux */
+  margin: 0; /* Supprime les marges par défaut */
+}
+

@@ -7,6 +7,8 @@ import PublicCVList from "../pages/PublicCVList"; // Page des CV visibles
 import CVDetailPage from "../pages/CVDetailPage"; // Détails d'un CV
 import Login from "../pages/Login";
 import Register from "../pages/Register";
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 const App = () => {
   return (

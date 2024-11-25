@@ -1,45 +1,104 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import LoginForm from "../src/components/LoginForm";
+import React from 'react';
+import { ErrorMessage, Field, Form, Formik } from 'formik';
+import { useNavigate } from 'react-router-dom';
+import * as Yup from 'yup';
 
-const Login = () => {
-  const [error, setError] = useState(null);
-  const navigate = useNavigate();
+function Login() {
+    const navigate = useNavigate();
 
-  const handleLogin = async (formData) => {
-    try {
-      const response = await fetch("/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        setError(errorData.message || "Une erreur est survenue.");
-        return;
-      }
-
-      const data = await response.json();
-      localStorage.setItem("token", data.token); // Stocker le token dans le localStorage
-      alert(data.message);
-      navigate("/manage-cv"); // Redirection après connexion réussie
-    } catch (err) {
-      console.error("Erreur de connexion :", err);
-      setError("Erreur serveur. Veuillez réessayer plus tard.");
-    }
-  };
-
-  return (
-    <div>
-      <h2>Connexion</h2>
-      <LoginForm onSubmit={handleLogin} error={error} />
-    </div>
-  );
-};
+    return (
+        <div className="centered-container">
+            <div
+                className="container"
+                style={{
+                    maxWidth: '400px',
+                    background: '#fff',
+                    padding: '20px',
+                    borderRadius: '8px',
+                    boxShadow: '0 4px 10px rgba(0, 0, 0, 0.1)',
+                }}
+            >
+                <h2 className="text-center mb-4">Connexion</h2>
+                <Formik
+                    initialValues={{
+                        email: '',
+                        password: '',
+                    }}
+                    validationSchema={Yup.object({
+                        email: Yup.string().email('Email invalide').required('Email requis'),
+                        password: Yup.string().required('Mot de passe requis'),
+                    })}
+                    onSubmit={async (values, { setSubmitting }) => {
+                        try {
+                            const response = await fetch('/auth/login', {
+                                method: 'POST',
+                                body: JSON.stringify(values),
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                            });
+                            if (!response.ok) {
+                                throw new Error(`Erreur HTTP ! Status: ${response.status}`);
+                            }
+                            const data = await response.json();
+                            localStorage.setItem('token', data.token);
+                            alert('Connexion réussie');
+                            navigate('/manage-cv');
+                        } catch (error) {
+                            console.error('Erreur de connexion :', error);
+                            alert('Erreur de connexion. Veuillez réessayer.');
+                        } finally {
+                            setSubmitting(false);
+                        }
+                    }}
+                >
+                    {({ isSubmitting }) => (
+                        <Form>
+                            <div className="form-group mb-3">
+                                <label htmlFor="email" className="form-label">
+                                    Email :
+                                </label>
+                                <Field
+                                    className="form-control"
+                                    type="email"
+                                    name="email"
+                                    placeholder="Entrez votre email"
+                                />
+                                <ErrorMessage
+                                    name="email"
+                                    component="div"
+                                    style={{ color: 'red', fontSize: '0.9em' }}
+                                />
+                            </div>
+                            <div className="form-group mb-3">
+                                <label htmlFor="password" className="form-label">
+                                    Mot de passe :
+                                </label>
+                                <Field
+                                    className="form-control"
+                                    type="password"
+                                    name="password"
+                                    placeholder="Entrez votre mot de passe"
+                                />
+                                <ErrorMessage
+                                    name="password"
+                                    component="div"
+                                    style={{ color: 'red', fontSize: '0.9em' }}
+                                />
+                            </div>
+                            <button
+                                className="btn btn-primary w-100"
+                                type="submit"
+                                disabled={isSubmitting}
+                            >
+                                {isSubmitting ? 'Connexion en cours...' : 'Connexion'}
+                            </button>
+                        </Form>
+                    )}
+                </Formik>
+            </div>
+        </div>
+    );
+}
 
 export default Login;
-
-  
