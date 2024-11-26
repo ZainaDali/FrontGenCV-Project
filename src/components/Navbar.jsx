@@ -18,8 +18,8 @@ const Navbar = () => {
   const handleLogout = () => {
     localStorage.removeItem("token");
     setIsAuthenticated(false); // Mettre à jour l'état pour refléter la déconnexion
-    //window.location.reload();
     navigate('/'); 
+    window.location.reload();
     
   };
 

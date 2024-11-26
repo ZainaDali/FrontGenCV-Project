@@ -199,6 +199,7 @@ const CVForm = ({ onSubmit, initialData = {}, token }) => {
             if (e.target.value === "addNew") setAddingDegreeManually(true);
             else handleEducationChange(e);
           }}
+          
         >
           <option value="">Choisissez un diplôme</option>
           {diplomas.map((diploma) => (

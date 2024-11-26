@@ -179,6 +179,8 @@ const ManageCV = () => {
               width: "90%",
               maxWidth: "500px",
               borderRadius: "8px",
+              maxHeight: "80vh", // Limite la hauteur maximale
+              overflowY: "auto", // Ajoute une barre de défilement si nécessaire
             }}
           >
             <CreateCV

@@ -8,23 +8,15 @@ import CVDetailPage from "../pages/CVDetailPage"; // Détails d'un CV
 import Login from "../pages/Login"; // Détails d'un CV
 import Register from "../pages/Register"; // Détails d'un CV
 import { AuthProvider, useAuth } from "./context/AuthContext"; // Use useAuth hook
-import ProtectedRoute from '../routes/ProtectedRoute';
+import ProtectedRoute from '../routes/ProtectedRoute'; // ProtectedRoute component
 
 const App = () => {
-  
   return (
     <AuthProvider>
-    <Router>
-      <Navbar /> {/* Affiche la barre de navigation sur toutes les pages */}
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/manage-cv" element={<ManageCV />} />
-        <Route path="/public-cvs" element={<PublicCVList />} />
-        <Route path="/cv/:id" element={<CVDetailPage />} />
-        <Route path="/Login" element={<Login />} />
-        <Route path="/Register" element={<Register />} />
-      </Routes>
-    </Router>
+      <Router>
+        <Navbar /> {/* Affiche la barre de navigation sur toutes les pages */}
+        <AppRoutes /> {/* Use AppRoutes here */}
+      </Router>
     </AuthProvider>
   );
 };
@@ -35,6 +27,7 @@ const AppRoutes = () => {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
+      {/* Protect the ManageCV route */}
       <Route
         path="/manage-cv"
         element={
