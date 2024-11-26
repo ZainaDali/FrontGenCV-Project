@@ -1,13 +1,29 @@
 import React, { useState, useEffect } from "react";
 import SearchBar from "../src/components/SearchBar";
+import "../styles/Home.css";
 
-const Home = () => {
+const Home = () => { // isConnected est passé comme prop
   const [cvList, setCvList] = useState([]);
-  const [filteredCvList, setFilteredCvList] = useState([]); // Liste filtrée des CVs
+  const [filteredCvList, setFilteredCvList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [expandedCV, setExpandedCV] = useState(null); // Gère l'affichage des détails
+  const [expandedCV, setExpandedCV] = useState(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
+  // Vérifier si l'utilisateur est connecté en consultant le token dans localStorage
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      setIsAuthenticated(true); // L'utilisateur est connecté
+    } else {
+      setIsAuthenticated(false); // L'utilisateur n'est pas connecté
+    }
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    setIsAuthenticated(false); // Mettre à jour l'état pour refléter la déconnexion
+  };
   // Fonction pour récupérer les CV visibles
   const fetchCVs = async () => {
     setLoading(true);
@@ -24,9 +40,9 @@ const Home = () => {
       }
 
       const data = await response.json();
-      const visibleCVs = data.filter((cv) => cv.visibilite); // Filtrer les CV visibles
+      const visibleCVs = data.filter((cv) => cv.visibilite);
       setCvList(visibleCVs);
-      setFilteredCvList(visibleCVs); // Initialiser la liste filtrée
+      setFilteredCvList(visibleCVs);
     } catch (error) {
       setError(error.message);
     } finally {
@@ -55,41 +71,43 @@ const Home = () => {
   };
 
   return (
-    <div>
+    <div className="container">
       <h1>Liste des CV visibles</h1>
-      <SearchBar onSearch={handleSearch} /> {/* Ajouter le composant de recherche */}
-      {loading && <p>Chargement des CV...</p>}
-      {error && <p style={{ color: "red" }}>Erreur : {error}</p>}
+      <SearchBar className="search-bar" onSearch={handleSearch} />
+      {/* Message si l'utilisateur n'est pas connecté */}
+      {!isAuthenticated && <p className="auth-warning">Connectez-vous pour voir plus de détails.</p>}
+      {loading && <p className="loading-message">Chargement des CV...</p>}
+      {error && <p className="error-message">Erreur : {error}</p>}
       {!loading && !error && filteredCvList.length === 0 && <p>Aucun CV visible trouvé.</p>}
       {!loading && filteredCvList.length > 0 && (
-        <table style={{ width: "100%", borderCollapse: "collapse" }}>
+        <table >
           <thead>
             <tr>
-              <th style={{ borderBottom: "1px solid #ccc", textAlign: "left" }}>Nom</th>
-              <th style={{ borderBottom: "1px solid #ccc", textAlign: "left" }}>Prénom</th>
-              <th style={{ borderBottom: "1px solid #ccc", textAlign: "left" }}>Expérience(s)</th>
+              <th>Nom</th>
+              <th >Prénom</th>
+              <th >Expérience(s)</th>
             </tr>
           </thead>
           <tbody>
             {filteredCvList.map((cv) => (
               <React.Fragment key={cv._id}>
                 <tr
-                  style={{ cursor: "pointer", background: "#f9f9f9" }}
-                  onClick={() => toggleDetails(cv._id)}
+                  onClick={() => isAuthenticated && toggleDetails(cv._id)} // Vérifie la connexion
                 >
-                  <td style={{ padding: "8px", borderBottom: "1px solid #ddd" }}>
+                  <td >
                     {cv.informationsPersonnelles.nom}
                   </td>
-                  <td style={{ padding: "8px", borderBottom: "1px solid #ddd" }}>
+                  <td >
                     {cv.informationsPersonnelles.prenom}
                   </td>
-                  <td style={{ padding: "8px", borderBottom: "1px solid #ddd" }}>
+                  <td >
                     {cv.experience.map((exp) => exp.poste).join(", ")}
                   </td>
                 </tr>
-                {expandedCV === cv._id && (
-                  <tr>
-                    <td colSpan="3" style={{ padding: "8px", background: "#f1f1f1" }}>
+                {/* Afficher les détails uniquement si l'utilisateur est connecté */}
+                {isAuthenticated && expandedCV === cv._id && (
+                  <tr className="details-row">
+                    <td colSpan="3" >
                       <h4>Détails</h4>
                       <p>
                         <strong>Description :</strong> {cv.informationsPersonnelles.description}
@@ -120,6 +138,7 @@ const Home = () => {
           </tbody>
         </table>
       )}
+      
     </div>
   );
 };

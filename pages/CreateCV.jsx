@@ -24,11 +24,12 @@ const CreateCV = ({token,onComplete}) => {
       const data = await response.json();
       console.log("Réponse de l'API :", data); // Vérification de la réponse API
       alert("CV créé avec succès !");
-      onComplete();
+      
     } catch (error) {
       console.error("Erreur lors de la création :", error);
       alert("Une erreur est survenue lors de la création du CV.");
     }
+    onComplete();
   };
 
   return <CVForm onSubmit={handleSubmit} />;
