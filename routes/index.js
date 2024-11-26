@@ -9,6 +9,7 @@ const AppRoutes = () => (
     <Routes>
       <Route path="/" element={<Home />} /> {/* Page d'accueil */}
       <Route path="/manage-cv" element={<ManageCV />} /> {/* Gestion des CV */}
+      
       <Route path="/public-cvs" element={<PublicCVList />} /> {/* CV visibles */}
       <Route path="/cv/:id" element={<CVDetailPage />} /> {/* Détail d'un CV */}
     </Routes>
