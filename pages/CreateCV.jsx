@@ -1,7 +1,7 @@
 import React from "react";
 import CVForm from "../src/components/CVForm";
 
-const CreateCV = ({onComplete}) => {
+const CreateCV = ({token,onComplete}) => {
   const handleSubmit = async (payload) => {
     console.log("Payload reçu pour création :", payload); // Vérification du payload
 
@@ -10,8 +10,7 @@ const CreateCV = ({onComplete}) => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization:
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3NDRkYmVmNDYxODc0N2Q3ZGU1MGZmYiIsImVtYWlsIjoiZGFsaS56YWluYUBleGFtcGxlLmNvbSIsImlhdCI6MTczMjU2NjAxMCwiZXhwIjoxNzMyNTY5NjEwfQ.Fb4J8YosHkvMZetavJi9JSUA0fQwL-UoQ1LYacnlW5Q",
+          Authorization:token
         },
         body: JSON.stringify(payload),
       });

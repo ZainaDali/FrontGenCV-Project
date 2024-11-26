@@ -2,15 +2,23 @@ import React, { useState, useEffect } from "react";
 import CreateCV from "./CreateCV";
 import CVItem from "./CVItem";
 import EditCV from "./EditCV";
-
-const ManageCV = ({ token }) => {
+import { useAuth } from "../src/context/AuthContext";
+const ManageCV = () => {
   const [cvs, setCVs] = useState([]);
   const [editingCV, setEditingCV] = useState(null); // Pour suivre le CV en cours de modification
   const [showCreateForm, setShowCreateForm] = useState(false); // Pour afficher le formulaire de création
   const [showEditForm, setShowEditForm] = useState(false); // Pour afficher le formulaire de modification
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const { token, logout } = useAuth(); // Récupérer le token et la fonction de déconnexion
 
+  useEffect(() => {
+    if (!token) {
+      console.log("Veuillez vous connecter");
+      return;
+    }
+    // Effectuer les requêtes API avec le token...
+  }, [token]);
   // Fetch user CVs
   const fetchCVs = async () => {
     setLoading(true);
@@ -19,7 +27,7 @@ const ManageCV = ({ token }) => {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          Authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3NDRkYmVmNDYxODc0N2Q3ZGU1MGZmYiIsImVtYWlsIjoiZGFsaS56YWluYUBleGFtcGxlLmNvbSIsImlhdCI6MTczMjU3MTI3MiwiZXhwIjoxNzMyNTc0ODcyfQ.aupEAwdx5RBSGlU150F2sASziFCyuBdjBXdxnedtxQ8",
+          Authorization: token
         },
       });
 
@@ -47,7 +55,7 @@ const ManageCV = ({ token }) => {
       const response = await fetch(`/api/api/cv/${id}`, {
         method: "DELETE",
         headers: {
-          Authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3NDRkYmVmNDYxODc0N2Q3ZGU1MGZmYiIsImVtYWlsIjoiZGFsaS56YWluYUBleGFtcGxlLmNvbSIsImlhdCI6MTczMjU3MTI3MiwiZXhwIjoxNzMyNTc0ODcyfQ.aupEAwdx5RBSGlU150F2sASziFCyuBdjBXdxnedtxQ8",
+          Authorization: token
         },
       });
 
@@ -86,7 +94,7 @@ const ManageCV = ({ token }) => {
         method: "PATCH", // PATCH request to update visibility
         headers: {
           "Content-Type": "application/json",
-          Authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3NDRkYmVmNDYxODc0N2Q3ZGU1MGZmYiIsImVtYWlsIjoiZGFsaS56YWluYUBleGFtcGxlLmNvbSIsImlhdCI6MTczMjU3MTI3MiwiZXhwIjoxNzMyNTc0ODcyfQ.aupEAwdx5RBSGlU150F2sASziFCyuBdjBXdxnedtxQ8", // Use the token for authorization
+          Authorization: token
         },
         body: JSON.stringify({ visibilite: newVisibility }), // Update visibility field
       });

@@ -19,7 +19,7 @@ const EditCV = ({ token, initialData, onComplete }) => {
         method: "PATCH", // Méthode pour modification
         headers: {
           "Content-Type": "application/json",
-          Authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3NDRkYmVmNDYxODc0N2Q3ZGU1MGZmYiIsImVtYWlsIjoiZGFsaS56YWluYUBleGFtcGxlLmNvbSIsImlhdCI6MTczMjU3MTI3MiwiZXhwIjoxNzMyNTc0ODcyfQ.aupEAwdx5RBSGlU150F2sASziFCyuBdjBXdxnedtxQ8", // Token transmis en prop
+          Authorization: token
         },
         body: JSON.stringify(payload),
       });
