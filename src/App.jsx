@@ -11,12 +11,20 @@ import { AuthProvider, useAuth } from "./context/AuthContext"; // Use useAuth ho
 import ProtectedRoute from '../routes/ProtectedRoute';
 
 const App = () => {
+  
   return (
-    <AuthProvider> {/* Ensure AuthProvider wraps the entire app */}
-      <Router>
-        <Navbar /> {/* Affiche la barre de navigation sur toutes les pages */}
-        <AppRoutes /> {/* Move Routes to a separate component */}
-      </Router>
+    <AuthProvider>
+    <Router>
+      <Navbar /> {/* Affiche la barre de navigation sur toutes les pages */}
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/manage-cv" element={<ManageCV />} />
+        <Route path="/public-cvs" element={<PublicCVList />} />
+        <Route path="/cv/:id" element={<CVDetailPage />} />
+        <Route path="/Login" element={<Login />} />
+        <Route path="/Register" element={<Register />} />
+      </Routes>
+    </Router>
     </AuthProvider>
   );
 };

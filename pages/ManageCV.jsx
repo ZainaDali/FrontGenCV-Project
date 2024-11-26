@@ -32,9 +32,9 @@ const ManageCV = () => {
       });
 
       if (!response.ok) {
-        throw new Error(`Erreur ${response.status}: ${response.statusText}`);
+      const errorData = await response.json(); // Analyser la réponse JSON
+      throw new Error(errorData.message );
       }
-
       const data = await response.json();
       setCVs(data);
     } catch (err) {
@@ -131,7 +131,8 @@ const ManageCV = () => {
       {loading ? (
         <p>Chargement des CV...</p>
       ) : error ? (
-        <p style={{ color: "red" }}>Erreur : {error}</p>
+        <p style={{ color: "red" }}> {error}</p>
+        
       ) : cvs.length === 0 ? (
         <p>Aucun CV disponible.</p>
       ) : (
@@ -186,11 +187,15 @@ const ManageCV = () => {
                 fetchCVs();
                 closeForm();
               }}
+
             />
+            
           </div>
         </>
-      )}
-
+      )
+      
+      }
+      
       {/* Affichage du formulaire de modification dans une boîte modale */}
       {showEditForm && editingCV && (
         <>

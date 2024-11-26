@@ -6,7 +6,7 @@ const AuthContext = createContext();
 // Fournisseur de contexte d'authentification
 export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem('token') || null);
-
+  
   // Fonction de login
   const login = async (email, password) => {
     try {
@@ -35,6 +35,7 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     setToken(null);
     localStorage.removeItem('token');
+    
   };
 
   return (

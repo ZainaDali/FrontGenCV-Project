@@ -25,9 +25,10 @@ a:hover {
 body {
   margin: 0;
   display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  flex-direction: column; /* Permet aux éléments de s'empiler verticalement */
+  min-width: 80%; /* Utilise toute la largeur de la fenêtre */
+  min-height: 80%; /* Utilise toute la hauteur de la fenêtre */
+  
 }
 
 h1 {

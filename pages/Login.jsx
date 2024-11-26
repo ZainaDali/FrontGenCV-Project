@@ -3,22 +3,14 @@ import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import { useAuth } from '../src/context/AuthContext'; 
+import '../styles/Login.css'
 function Login() {
   const navigate = useNavigate();
   const { login } = useAuth(); // Utilisation du hook personnalisé pour accéder à la fonction login
 
   return (
     <div className="centered-container">
-      <div
-        className="container"
-        style={{
-          maxWidth: '400px',
-          background: '#fff',
-          padding: '20px',
-          borderRadius: '8px',
-          boxShadow: '0 4px 10px rgba(0, 0, 0, 0.1)',
-        }}
-      >
+      <div className="containerlog">
         <h2 className="text-center mb-4">Connexion</h2>
         <Formik
           initialValues={{
@@ -36,6 +28,7 @@ function Login() {
 
               alert('Connexion réussie');
               navigate('/manage-cv'); // Rediriger l'utilisateur après la connexion réussie
+              window.location.reload();
             } catch (error) {
               console.error('Erreur de connexion :', error);
               alert('Erreur de connexion. Veuillez réessayer.');
@@ -59,7 +52,7 @@ function Login() {
                 <ErrorMessage
                   name="email"
                   component="div"
-                  style={{ color: 'red', fontSize: '0.9em' }}
+                  
                 />
               </div>
               <div className="form-group mb-3">
@@ -75,7 +68,7 @@ function Login() {
                 <ErrorMessage
                   name="password"
                   component="div"
-                  style={{ color: 'red', fontSize: '0.9em' }}
+                  
                 />
               </div>
               <button
