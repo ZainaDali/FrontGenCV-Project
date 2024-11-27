@@ -21,7 +21,7 @@ const Profile = () => {
   const fetchProfile = async () => {
     setLoading(true);
     try {
-      const response = await fetch('api/auth/me', {
+      const response = await fetch('https://projetnode1.onrender.com/auth/me', {
         method: 'GET',
         headers: {
           Authorization: token,
@@ -45,7 +45,7 @@ const Profile = () => {
   const updateProfile = async (updates) => {
     try {
       console.log(updates)
-      const response = await fetch('api/api/user', {
+      const response = await fetch('https://projetnode1.onrender.com/api/user', {
         method: 'PATCH', // Utilisation de PATCH pour les mises à jour partielles
         headers: {
           'Content-Type': 'application/json',
