@@ -12,7 +12,7 @@ const EditCV = ({ token, initialData, onComplete }) => {
       return;
     }
 
-    const endpoint = `/api/api/cv/${initialData._id}`; // Endpoint pour modification uniquement
+    const endpoint = `https://projetnode1.onrender.com/api/cv/${initialData._id}`; // Endpoint pour modification uniquement
 
     try {
       const response = await fetch(endpoint, {

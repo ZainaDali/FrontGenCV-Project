@@ -14,7 +14,7 @@ const CVItem = ({ cv, onEdit, onDelete, onToggleVisibility }) => {
   };
   const fetchRecommendations = async () => {
     try {
-      const response = await fetch(`/api/api/recommendations/${cv._id}`, {
+      const response = await fetch(`https://projetnode1.onrender.com/api/recommendations/${cv._id}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -36,7 +36,7 @@ const CVItem = ({ cv, onEdit, onDelete, onToggleVisibility }) => {
   // Fonction pour supprimer une recommandation
   const handleRecommendationDelete = async (recommendationId) => {
     try {
-      const response = await fetch(`/api/api/recommendations/${recommendationId}`, {
+      const response = await fetch(`https://projetnode1.onrender.com/api/recommendations/${recommendationId}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
