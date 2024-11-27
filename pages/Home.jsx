@@ -17,7 +17,11 @@ const Home = () => {
     const token = localStorage.getItem("token");
     setIsAuthenticated(!!token);
   }, []);
-
+  useEffect(() => {
+    console.log(recommendation)
+    console.log(recommendations)
+  }, [recommendations,recommendation]
+);
   // Fonction pour récupérer les CV visibles
   const fetchCVs = async () => {
     setLoading(true);
@@ -64,6 +68,7 @@ const Home = () => {
         [cvId]: data, // Stocker les recommandations pour ce CV
       }));
     } catch (error) {
+      
       setRecommendationErrors((prev) => ({
         ...prev,
         [cvId]: error.message, // Stocker le message d'erreur pour ce CV
@@ -91,12 +96,15 @@ const Home = () => {
           body: JSON.stringify({ message: recommendation }),
         }
       );
+    
 
       if (!response.ok) throw new Error("Erreur lors de l'envoi de la recommandation.");
 
       const data = await response.json();
+      
       alert("Recommandation ajoutée avec succès !");
       fetchRecommendations(cvId)
+      
       setRecommendations((prev) => ({
         ...prev,
         [cvId]: [...(prev[cvId] || []), data], // Ajouter la nouvelle recommandation
@@ -106,7 +114,7 @@ const Home = () => {
       console.error(error);
       alert("Impossible d'envoyer la recommandation.");
     }
-    
+    fetchRecommendations(cvId)
   };
 
   // Charger les CV au démarrage
@@ -155,15 +163,18 @@ const Home = () => {
                       <h4>Détails</h4>
                       <p><strong>Description :</strong> {cv.informationsPersonnelles.description}</p>
                       <h5>Recommandations :</h5>
-                      {recommendationErrors[cv._id] ? (
-                        <p className="error-message">Aucune recommandation disponible</p>
-                      ) : (
+                      {(recommendations[cv._id] && recommendations[cv._id].length > 0) ? (
                         <ul>
-                          {(recommendations[cv._id] || []).map((rec, index) => (
+                          {recommendations[cv._id].map((rec, index) => (
                             <li key={index}>{rec.message}</li>
                           ))}
                         </ul>
+                      ) : recommendationErrors[cv._id] ? (
+                        <p className="error-message">Aucune recommandation disponible</p>
+                      ) : (
+                        <p className="info-message">Aucune donnée trouvée pour ce CV.</p>
                       )}
+
                       <textarea
                         value={recommendation}
                         onChange={(e) => setRecommendation(e.target.value)}

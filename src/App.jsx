@@ -9,7 +9,7 @@ import Login from "../pages/Login"; // Détails d'un CV
 import Register from "../pages/Register"; // Détails d'un CV
 import { AuthProvider, useAuth } from "./context/AuthContext"; // Use useAuth hook
 import ProtectedRoute from '../routes/ProtectedRoute'; // ProtectedRoute component
-
+import Profile from "../pages/Profile";
 const App = () => {
   return (
     <AuthProvider>
@@ -33,6 +33,14 @@ const AppRoutes = () => {
         element={
           <ProtectedRoute>
             {token ? <ManageCV /> : <Navigate to="/login" />}
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/Profile"
+        element={
+          <ProtectedRoute>
+            {token ? <Profile /> : <Navigate to="/login" />}
           </ProtectedRoute>
         }
       />

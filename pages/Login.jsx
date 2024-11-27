@@ -27,7 +27,7 @@ function Login() {
               await login(values.email, values.password);
 
               alert('Connexion réussie');
-              navigate('/manage-cv'); // Rediriger l'utilisateur après la connexion réussie
+              navigate('/Profile'); 
               window.location.reload();
             } catch (error) {
               console.error('Erreur de connexion :', error);
