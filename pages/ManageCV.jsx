@@ -23,7 +23,7 @@ const ManageCV = () => {
   const fetchCVs = async () => {
     setLoading(true);
     try {
-      const response = await fetch("api/api/cv/user/mine", {
+      const response = await fetch("https://projetnode1.onrender.com/cv/user/mine", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -52,7 +52,7 @@ const ManageCV = () => {
     if (!window.confirm("Êtes-vous sûr de vouloir supprimer ce CV ?")) return;
 
     try {
-      const response = await fetch(`/api/api/cv/${id}`, {
+      const response = await fetch(`https://projetnode1.onrender.com/api/cv/${id}`, {
         method: "DELETE",
         headers: {
           Authorization: token
@@ -90,7 +90,7 @@ const ManageCV = () => {
   };
   const handleToggleVisibility = async (id, newVisibility) => {
     try {
-      const response = await fetch(`/api/api/cv/${id}`, {
+      const response = await fetch(`https://projetnode1.onrender.com/api/cv/${id}`, {
         method: "PATCH", // PATCH request to update visibility
         headers: {
           "Content-Type": "application/json",
