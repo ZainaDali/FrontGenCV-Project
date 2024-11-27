@@ -3,7 +3,7 @@ import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import { useAuth } from '../src/context/AuthContext'; 
-import '../src/style/Login.css';
+import '../styles/Login.css';
 function Login() {
   const navigate = useNavigate();
   const { login } = useAuth(); // Utilisation du hook personnalisé pour accéder à la fonction login

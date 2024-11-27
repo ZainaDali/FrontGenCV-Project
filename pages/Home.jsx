@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import SearchBar from "../src/components/SearchBar";
-import '../src/style/Home.css';
+import '../styles/Home.css';
 
 const Home = () => {
   const [cvList, setCvList] = useState([]);
