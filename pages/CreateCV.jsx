@@ -7,7 +7,7 @@ const CreateCV = ({token,onComplete}) => {
 
     try {
       
-      const response = await fetch("/api/api/cv", {
+      const response = await fetch("https://projetnode1.onrender.com/cv", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
