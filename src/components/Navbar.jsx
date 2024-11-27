@@ -45,6 +45,9 @@ const Navbar = () => {
               <Link to="/manage-cv" >Gérer mes CV</Link>
             </li>
             <li>
+              <Link to="/espace-personnel" >Espace Personnel</Link>
+            </li>
+            <li>
               <button onClick={handleLogout} >Déconnexion</button>
             </li>
           </>
