@@ -95,7 +95,7 @@ const Profile = () => {
               // Appeler la fonction de mise à jour uniquement si des changements ont été effectués
               
               if (updates.email && updates.email !== user.email) {
-
+                updateProfile(updates);
                   handleLogout()                  
                 } else if (Object.keys(updates).length > 0) {
                   updateProfile(updates);
