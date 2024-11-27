@@ -26,7 +26,7 @@ const Home = () => {
   const fetchCVs = async () => {
     setLoading(true);
     try {
-      const response = await fetch("/api/api/cv", {
+      const response = await fetch("/api/cv", {
         method: "GET",
         headers: { "Content-Type": "application/json" },
       });
@@ -48,7 +48,7 @@ const Home = () => {
     try {
       const token = localStorage.getItem("token");
       const response = await fetch(
-        `api/api/recommendations/${cvId}`,
+        `api/recommendations/${cvId}`,
         {
           method: "GET",
           headers: {
@@ -86,7 +86,7 @@ const Home = () => {
     try {
       const token = localStorage.getItem("token");
       const response = await fetch(
-        `api/api/recommendations/${cvId}`,
+        `api/recommendations/${cvId}`,
         {
           method: "POST",
           headers: {
