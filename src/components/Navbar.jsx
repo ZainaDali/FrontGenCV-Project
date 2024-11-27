@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
-import "../../styles/Navbar.css"
+import '../styleNavbar/Navbar.css';
+
 const Navbar = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const navigate = useNavigate();
   // Vérifier si l'utilisateur est connecté en consultant le token dans localStorage
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("token")
     if (token) {
       setIsAuthenticated(true); // L'utilisateur est connecté
     } else {
