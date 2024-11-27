@@ -23,7 +23,7 @@ const ManageCV = () => {
   const fetchCVs = async () => {
     setLoading(true);
     try {
-      const response = await fetch("https://projetnode1.onrender.com/cv/user/mine", {
+      const response = await fetch("https://projetnode1.onrender.com/api/cv/user/mine", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
