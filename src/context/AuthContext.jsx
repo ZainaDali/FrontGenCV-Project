@@ -10,7 +10,7 @@ export const AuthProvider = ({ children }) => {
   // Fonction de login
   const login = async (email, password) => {
     try {
-      const response = await fetch('/auth/login', {
+      const response = await fetch('https://projetnode1.onrender.com/api/auth/login', {
         method: 'POST',
         body: JSON.stringify({ email, password }),
         headers: {
