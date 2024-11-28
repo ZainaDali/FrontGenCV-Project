@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import SearchBar from "../src/components/SearchBar";
 import '../src/style/Home.css';
 
+ 
 const Home = () => {
   const [cvList, setCvList] = useState([]);
   const [recommendation, setRecommendation] = useState("");
@@ -11,7 +12,7 @@ const Home = () => {
   const [error, setError] = useState(null);
   const [expandedCV, setExpandedCV] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-
+  const [searchText, setSearchText] = useState("");
   // Vérifier si l'utilisateur est connecté
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -30,9 +31,9 @@ const Home = () => {
         method: "GET",
         headers: { "Content-Type": "application/json" },
       });
-
+ 
       if (!response.ok) throw new Error(`Erreur ${response.status}: ${response.statusText}`);
-
+ 
       const data = await response.json();
       const visibleCVs = data.filter((cv) => cv.visibilite);
       setCvList(visibleCVs);
@@ -42,7 +43,7 @@ const Home = () => {
       setLoading(false);
     }
   };
-
+ 
   // Fonction pour récupérer les recommandations pour un CV spécifique
   const fetchRecommendations = async (cvId) => {
     try {
@@ -57,32 +58,32 @@ const Home = () => {
           },
         }
       );
-
+ 
       if (!response.ok) {
         throw new Error(`Erreur ${response.status}: ${response.statusText}`);
       }
-
+ 
       const data = await response.json();
       setRecommendations((prev) => ({
         ...prev,
         [cvId]: data, // Stocker les recommandations pour ce CV
       }));
     } catch (error) {
-      
+     
       setRecommendationErrors((prev) => ({
         ...prev,
         [cvId]: error.message, // Stocker le message d'erreur pour ce CV
       }));
     }
   };
-
+ 
   // Fonction pour gérer la soumission d'une recommandation
   const handleRecommendationSubmit = async (cvId) => {
     if (!recommendation.trim()) {
       alert("La recommandation ne peut pas être vide.");
       return;
     }
-
+ 
     try {
       const token = localStorage.getItem("token");
       const response = await fetch(
@@ -96,15 +97,15 @@ const Home = () => {
           body: JSON.stringify({ message: recommendation }),
         }
       );
-    
-
+   
+ 
       if (!response.ok) throw new Error("Erreur lors de l'envoi de la recommandation.");
-
+ 
       const data = await response.json();
-      
+     
       alert("Recommandation ajoutée avec succès !");
       fetchRecommendations(cvId)
-      
+     
       setRecommendations((prev) => ({
         ...prev,
         [cvId]: [...(prev[cvId] || []), data], // Ajouter la nouvelle recommandation
@@ -116,12 +117,16 @@ const Home = () => {
     }
     fetchRecommendations(cvId)
   };
-
+  const filteredCVs = cvList.filter(
+    (cv) =>
+      cv.informationsPersonnelles.nom.toLowerCase().includes(searchText.toLowerCase()) ||
+      cv.informationsPersonnelles.prenom.toLowerCase().includes(searchText.toLowerCase())
+  );
   // Charger les CV au démarrage
   useEffect(() => {
     fetchCVs();
   }, []);
-
+ 
   // Gérer l'affichage des détails
   const toggleDetails = (cvId) => {
     setExpandedCV((prevId) => (prevId === cvId ? null : cvId));
@@ -129,26 +134,30 @@ const Home = () => {
       fetchRecommendations(cvId); // Récupérer les recommandations si elles n'ont pas encore été chargées
     }
   };
-
+ 
   return (
     <div className="container">
       <h1>Liste des CV visibles</h1>
-      <SearchBar className="search-bar" />
+     
+      <SearchBar value={searchText} onChange={setSearchText} />
+ 
       {!isAuthenticated && <p className="auth-warning">Connectez-vous pour voir plus de détails.</p>}
       {loading && <p>Chargement des CV...</p>}
       {error && <p>Erreur : {error}</p>}
-      {!loading && cvList.length === 0 && <p>Aucun CV visible trouvé.</p>}
-      {!loading && cvList.length > 0 && (
+      {!loading && filteredCVs.length === 0 && <p>Aucun CV visible trouvé.</p>}
+      {!loading && filteredCVs.length > 0 && (
         <table>
           <thead>
-            <tr>
-              <th>Nom</th>
-              <th>Prénom</th>
-              <th>Expérience(s)</th>
-            </tr>
+          {filteredCVs.map((cv) => (
+              <tr key={cv._id}>
+                <td>{cv.informationsPersonnelles.nom}</td>
+                <td>{cv.informationsPersonnelles.prenom}</td>
+                <td>{cv.experience.map((exp) => exp.poste).join(", ")}</td>
+              </tr>
+            ))}
           </thead>
           <tbody>
-            {cvList.map((cv) => (
+            {filteredCVs.map((cv) => (
               <React.Fragment key={cv._id}>
                 <tr
                   onClick={() => isAuthenticated && toggleDetails(cv._id)}
@@ -174,7 +183,7 @@ const Home = () => {
                       ) : (
                         <p className="info-message">Aucune donnée trouvée pour ce CV.</p>
                       )}
-
+ 
                       <textarea
                         value={recommendation}
                         onChange={(e) => setRecommendation(e.target.value)}
@@ -197,5 +206,6 @@ const Home = () => {
     </div>
   );
 };
-
+ 
 export default Home;
+ 
