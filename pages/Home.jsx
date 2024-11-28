@@ -144,17 +144,15 @@ const Home = () => {
       {!isAuthenticated && <p className="auth-warning">Connectez-vous pour voir plus de détails.</p>}
       {loading && <p>Chargement des CV...</p>}
       {error && <p>Erreur : {error}</p>}
-      {!loading && filteredCVs.length === 0 && <p>Aucun CV visible trouvé.</p>}
-      {!loading && filteredCVs.length > 0 && (
+      {!loading && cvList.length === 0 && <p>Aucun CV visible trouvé.</p>}
+      {!loading && cvList.length > 0 && (
         <table>
           <thead>
-          {filteredCVs.map((cv) => (
               <tr key={cv._id}>
                 <td>{cv.informationsPersonnelles.nom}</td>
                 <td>{cv.informationsPersonnelles.prenom}</td>
                 <td>{cv.experience.map((exp) => exp.poste).join(", ")}</td>
               </tr>
-            ))}
           </thead>
           <tbody>
             {filteredCVs.map((cv) => (
