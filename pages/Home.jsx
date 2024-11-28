@@ -117,15 +117,16 @@ const Home = () => {
     }
     fetchRecommendations(cvId)
   };
-  const filteredCVs = cvList.filter(
-    (cv) =>
-      cv.informationsPersonnelles.nom.toLowerCase().includes(searchText.toLowerCase()) ||
-      cv.informationsPersonnelles.prenom.toLowerCase().includes(searchText.toLowerCase())
-  );
+ 
   // Charger les CV au démarrage
   useEffect(() => {
     fetchCVs();
   }, []);
+  const filteredCVs = cvList.filter(
+    (cv) =>
+      cv.informationsPersonnelles.nom.toLowerCase().includes(searchText.toLowerCase()) ||
+      cv.informationsPersonnelles.prenom.toLowerCase().includes(searchText.toLowerCase())
+  );//<SearchBar value={searchText} onChange={setSearchText} />
  
   // Gérer l'affichage des détails
   const toggleDetails = (cvId) => {
@@ -138,9 +139,7 @@ const Home = () => {
   return (
     <div className="container">
       <h1>Liste des CV visibles</h1>
-     
       <SearchBar value={searchText} onChange={setSearchText} />
- 
       {!isAuthenticated && <p className="auth-warning">Connectez-vous pour voir plus de détails.</p>}
       {loading && <p>Chargement des CV...</p>}
       {error && <p>Erreur : {error}</p>}
@@ -148,11 +147,11 @@ const Home = () => {
       {!loading && cvList.length > 0 && (
         <table>
           <thead>
-              <tr key={cv._id}>
-                <td>{cv.informationsPersonnelles.nom}</td>
-                <td>{cv.informationsPersonnelles.prenom}</td>
-                <td>{cv.experience.map((exp) => exp.poste).join(", ")}</td>
-              </tr>
+            <tr>
+              <th>Nom</th>
+              <th>Prénom</th>
+              <th>Expérience(s)</th>
+            </tr>
           </thead>
           <tbody>
             {filteredCVs.map((cv) => (
