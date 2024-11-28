@@ -11,7 +11,7 @@ const Home = () => {
   const [error, setError] = useState(null);
   const [expandedCV, setExpandedCV] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-
+  const [searchText, setSearchText] = useState("");
   // Vérifier si l'utilisateur est connecté
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -116,7 +116,11 @@ const Home = () => {
     }
     fetchRecommendations(cvId)
   };
-
+  const filteredCVs = cvList.filter(
+    (cv) =>
+      cv.informationsPersonnelles.nom.toLowerCase().includes(searchText.toLowerCase()) ||
+      cv.informationsPersonnelles.prenom.toLowerCase().includes(searchText.toLowerCase())
+  );
   // Charger les CV au démarrage
   useEffect(() => {
     fetchCVs();
@@ -133,22 +137,26 @@ const Home = () => {
   return (
     <div className="container">
       <h1>Liste des CV visibles</h1>
-      <SearchBar className="search-bar" />
+      
+      <SearchBar value={searchText} onChange={setSearchText} />
+
       {!isAuthenticated && <p className="auth-warning">Connectez-vous pour voir plus de détails.</p>}
       {loading && <p>Chargement des CV...</p>}
       {error && <p>Erreur : {error}</p>}
-      {!loading && cvList.length === 0 && <p>Aucun CV visible trouvé.</p>}
-      {!loading && cvList.length > 0 && (
+      {!loading && filteredCVs.length === 0 && <p>Aucun CV visible trouvé.</p>}
+      {!loading && filteredCVs.length > 0 && (
         <table>
           <thead>
-            <tr>
-              <th>Nom</th>
-              <th>Prénom</th>
-              <th>Expérience(s)</th>
-            </tr>
+          {filteredCVs.map((cv) => (
+              <tr key={cv._id}>
+                <td>{cv.informationsPersonnelles.nom}</td>
+                <td>{cv.informationsPersonnelles.prenom}</td>
+                <td>{cv.experience.map((exp) => exp.poste).join(", ")}</td>
+              </tr>
+            ))}
           </thead>
           <tbody>
-            {cvList.map((cv) => (
+            {filteredCVs.map((cv) => (
               <React.Fragment key={cv._id}>
                 <tr
                   onClick={() => isAuthenticated && toggleDetails(cv._id)}
